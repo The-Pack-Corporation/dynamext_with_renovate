@@ -6,8 +6,8 @@ This Application is useful for users who has to send large text messages frequen
 This application is relevent for users who has to modify the same data every time they send large text messages.
 
 ## Scenarios:
-User has to send same template to multiple people in personalised format for each person.Ex: Hi "John".
-User has to send same template to chat groups with some repeating change in data. Ex: Today is "Monday". Here user has to change the day everytime they send this message.
+- User has to send same template to multiple people in personalised format for each person.Ex: Hi "John".
+- User has to send same template to chat groups with same repeating change in data. Ex: Today is "Monday". Here user has to change the day everytime they send this message.
 
 People who frequently has to edit and send large text templates experience number of pain points like:
 - Has to navigate the texts through small input boxes of mobile chat apps
