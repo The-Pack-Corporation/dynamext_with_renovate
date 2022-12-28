@@ -1,4 +1,34 @@
-
+<div class="modal fade" id="exampleModal" data-bs-backdrop="static" data-bs-keyboard="false"  tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">New Variable</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form (ngSubmit)="onSaveTemplateVariable(variableForm)" #variableForm="ngForm">
+                <div class="mb-3">
+                  <label for="exampleInputEmail1" class="form-label">Template Variable Name</label>
+                  <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                  ngModel
+                  name="templateVariableName">
+                </div>
+                <div class="mb-3">
+                    <select class="form-select" aria-label="Default select example"
+                    [(ngModel)]="defaultType"
+                    name="variableType">
+                        <option *ngFor="let item of variableType" [value]=" item ">{{ item }}</option>
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" type="submit">Save</button>
+                </div>
+            </form>
+        </div>
+      </div>
+    </div>
+</div>
 <div class="container">
     <div class="row">
         <div class="col">
@@ -12,14 +42,16 @@
                                   <span class="visually-hidden">Toggle Dropdown</span>
                                 </button>
                                 <ul class="dropdown-menu">
-                                  <li><a  class="dropdown-item" href="#">Text</a></li>
-                                  <li><a  class="dropdown-item" href="#">Number</a></li>
-                                  <li><a  class="dropdown-item" href="#">Date</a></li>
+                                  <li *ngFor="let item of templateVariables"><a  class="dropdown-item" href="#">{{ item }}</a></li>
+                                  <!-- <li><a  class="dropdown-item" href="#">Number</a></li>
+                                  <li><a  class="dropdown-item" href="#">Date</a></li> -->
                                   <!-- <li><hr class="dropdown-divider"></li> -->
                                 </ul>
                             </div>
                         </div>
-                        <button class="btn btn-primary">New Variable</button>    
+                        <button class="btn btn-primary"
+                        data-bs-toggle="modal" 
+                        data-bs-target="#exampleModal">New Variable</button>    
                     </div>
                 </nav>
             </div>
@@ -29,11 +61,20 @@
         <div class="col">
             <div class="mt-2">
                 <form>
-                    <div class="editable form-control col-lg-12" contenteditable="true">
-                        
+                    <div #templateEditor class="editable form-control col-lg-12" contenteditable="true">
+                        <p>this is a para</p>
+                        <p>this is an another para</p>
                     </div>
                 </form>
             </div>            
         </div>
     </div>
+    <div class="row float-end">
+        <div class="col">
+            <div class="m-3">
+                <button (click) = "onSubmitTemplateEditorContent()" class="btn btn-success"> Save </button>
+            </div>            
+        </div>
+    </div>
+
 </div>
