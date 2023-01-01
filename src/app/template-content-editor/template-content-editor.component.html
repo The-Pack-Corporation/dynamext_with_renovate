@@ -3,7 +3,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">New Variable</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button #closeModal type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
             <form (ngSubmit)="onSaveTemplateVariable(variableForm)" #variableForm="ngForm">
@@ -17,7 +17,7 @@
                     <select class="form-select" aria-label="Default select example"
                     [(ngModel)]="defaultType"
                     name="variableType">
-                        <option *ngFor="let item of variableType" [value]=" item ">{{ item }}</option>
+                        <option *ngFor="let item of variableTypeList" [value]=" item ">{{ item }}</option>
                     </select>
                 </div>
                 <div class="modal-footer">
@@ -29,6 +29,29 @@
       </div>
     </div>
 </div>
+
+<!-- template title -->
+<div class="modal fade" id="exampleModal2" data-bs-backdrop="static" data-bs-keyboard="false"  tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel2">Template Title</h5>
+                <button #closeModal type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Title</label>
+                    <input [(ngModel)]="templateTitle" type="email" class="form-control" id="exampleInputEmail2" aria-describedby="emailHelp">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" (click)=" onSubmitTemplateEditorContent()">Save</button>
+                </div>
+            </div>
+      </div>
+    </div>
+</div>
+
 <div class="container">
     <div class="row">
         <div class="col">
@@ -42,10 +65,12 @@
                                   <span class="visually-hidden">Toggle Dropdown</span>
                                 </button>
                                 <ul class="dropdown-menu">
-                                  <li *ngFor="let item of templateVariables"><a  class="dropdown-item" href="#">{{ item }}</a></li>
-                                  <!-- <li><a  class="dropdown-item" href="#">Number</a></li>
-                                  <li><a  class="dropdown-item" href="#">Date</a></li> -->
-                                  <!-- <li><hr class="dropdown-divider"></li> -->
+                                    <li *ngFor="let item of templateVariables">
+                                        <a  class="dropdown-item" href="#"
+                                        (click)="pasteHtmlAtCaret(item.templateName, false)">
+                                        {{ item.templateName }}
+                                        </a>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -64,7 +89,7 @@
                     <div #templateEditor class="editable form-control col-lg-12" contenteditable="true">
                         <p>this is a para</p>
                         <p>this is an another para</p>
-                    </div>
+                    </div>                    
                 </form>
             </div>            
         </div>
@@ -72,9 +97,13 @@
     <div class="row float-end">
         <div class="col">
             <div class="m-3">
-                <button (click) = "onSubmitTemplateEditorContent()" class="btn btn-success"> Save </button>
+                <button 
+                class="btn btn-success"
+                data-bs-toggle="modal" 
+                data-bs-target="#exampleModal2"> 
+                Save 
+                </button>
             </div>            
         </div>
     </div>
-
 </div>

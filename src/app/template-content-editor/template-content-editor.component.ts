@@ -1,5 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild, Renderer2 } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { TemplateVariabe } from '../models/template-variable.model';
+import { Template } from '../models/template.model';
 @Component({
   selector: 'app-template-content-editor',
   templateUrl: './template-content-editor.component.html',
@@ -7,11 +9,15 @@ import { NgForm } from '@angular/forms';
 })
 export class TemplateContentEditorComponent implements OnInit {
 
-  defaultType = "default"
-  variableType =["1", "2", "3", "default"];
-  templateVariables = ["text", "number", "date"];
+  defaultType = "Text";
+  variableTypeList =["Text", "Number", "Date", "Time", "Dropdown"];
+  templateVariables: TemplateVariabe[] = [];
+  templateTitle = ""
 
+  @ViewChild('closeModal', {static:true}) closeModal!: ElementRef;
+  @ViewChild('variableForm', {static: true}) variableForm!: NgForm;
   @ViewChild('templateEditor', {static:true}) templateEditor! : ElementRef;
+
 
   constructor(private renderer:Renderer2) { }
 
@@ -19,12 +25,90 @@ export class TemplateContentEditorComponent implements OnInit {
   }
 
 
+  pasteHtmlAtCaret(variableName: string, selectPastedContent) {
+    var sel, range;
+    if (window.getSelection) {
+        sel = window.getSelection();
+        var offsetIndex = sel.anchorOffset;
+        if (sel.getRangeAt && sel.rangeCount) {
+            range = sel.getRangeAt(0);
+            range.deleteContents();
+
+            var el = document.createElement("div");
+
+            //make it as a function
+            var para = this.renderer.createElement('p');
+            this.renderer.setAttribute(para,'contenteditable','false');
+            this.renderer.setAttribute(para,'hidden','true');
+            this.renderer.setProperty(para,'innerHTML','__$');
+
+            this.renderer.appendChild(el, para);
+
+            var link = this.renderer.createElement('a');
+            this.renderer.setAttribute(link,'contenteditable','false');
+            this.renderer.setAttribute(link,'style','color:blue');
+            this.renderer.setProperty(link,'innerHTML',variableName);
+            this.renderer.appendChild(el, link);
+
+            var para2 = this.renderer.createElement('p');
+            this.renderer.setAttribute(para2,'contenteditable','false');
+            this.renderer.setAttribute(para2,'hidden','true');
+            this.renderer.setProperty(para2,'innerHTML','__$');
+            
+            this.renderer.appendChild(el, para2);
+
+            var frag = document.createDocumentFragment(), node, lastNode;
+            while ( (node = el.firstChild) ) {
+                lastNode = frag.appendChild(node);
+            }
+            var firstNode = frag.firstChild;
+            range.insertNode(frag);
+
+            if (lastNode) {
+                range = range.cloneRange();
+                range.setStartAfter(lastNode);
+                if (selectPastedContent) {
+                    range.setStartBefore(firstNode);
+                } else {
+                    range.collapse(true);
+                }
+                sel.removeAllRanges();
+                sel.addRange(range);
+            }
+        }
+    } 
+    // else if ( (sel = document.getSelection) && sel.type != "Control") {
+    //     var originalRange = sel.createRange();
+    //     originalRange.collapse(true);
+    //     sel.createRange().pasteHTML(html);
+    //     if (selectPastedContent) {
+    //         range = sel.createRange();
+    //         range.setEndPoint("StartToStart", originalRange);
+    //         range.select();
+    //     }
+    // }
+}
+
+
+
   onSubmitTemplateEditorContent() {
-    console.log(this.templateEditor.nativeElement.innerHTML);
+    console.log(new Template(
+      this.templateTitle,
+      this.templateEditor.nativeElement.innerText,
+      this.templateEditor.nativeElement.innerHTML,
+      this.templateVariables
+    ))
   }
 
   onSaveTemplateVariable(form : NgForm) {
-    console.log(form);
+
+    var json = form.value;
+    console.log(json);
+    this.templateVariables.push(
+      new TemplateVariabe(json.templateVariableName, json.variableType)
+    );
+    this.variableForm.reset();
+    this.closeModal.nativeElement.click();
   }
 
 }

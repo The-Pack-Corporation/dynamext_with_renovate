@@ -9,6 +9,7 @@ import { TemplateComponent } from './template/template.component';
 import { TemplateItemComponent } from './template/template-item/template-item.component';
 import { TemplateListComponent } from './template/template-list/template-list.component';
 import { CreateTemplateComponent } from './template/create-template/create-template.component';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { CreateTemplateComponent } from './template/create-template/create-templ
   ],
   imports: [
     BrowserModule,
-    FormsModule
+    FormsModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
