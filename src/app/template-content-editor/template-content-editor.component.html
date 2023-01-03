@@ -36,7 +36,7 @@
       <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel2">Template Title</h5>
-                <button #closeModal type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button #closeTitleModal type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="mb-3">
@@ -66,10 +66,10 @@
                                 </button>
                                 <ul class="dropdown-menu">
                                     <li *ngFor="let item of templateVariables">
-                                        <a  class="dropdown-item" href="#"
-                                        (click)="pasteHtmlAtCaret(item.templateName, false)">
-                                        {{ item.templateName }}
-                                        </a>
+                                        <button  class="dropdown-item"
+                                        (click)="pasteHtmlAtCaret(item.variableName, false)">
+                                        {{ item.variableName }}
+                                    </button>
                                     </li>
                                 </ul>
                             </div>
@@ -87,8 +87,6 @@
             <div class="mt-2">
                 <form>
                     <div #templateEditor class="editable form-control col-lg-12" contenteditable="true">
-                        <p>this is a para</p>
-                        <p>this is an another para</p>
                     </div>                    
                 </form>
             </div>            

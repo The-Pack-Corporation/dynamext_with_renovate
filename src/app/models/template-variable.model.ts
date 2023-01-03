@@ -1,8 +1,8 @@
 export class TemplateVariabe {
 
     constructor (
-        public templateName: string,
-        public templateType: string
+        public variableName: string,
+        public variableType: string
     ) {
 
     }

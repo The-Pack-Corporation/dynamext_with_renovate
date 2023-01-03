@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Template } from 'src/app/models/template.model';
+import { TemplateService } from 'src/app/services/template.service';
 
 @Component({
   selector: 'app-template-item',
@@ -7,9 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TemplateItemComponent implements OnInit {
 
-  constructor() { }
+  @Input() template: Template; 
+
+  constructor(public templateService : TemplateService) { }
 
   ngOnInit(): void {
+  }
+
+  onTemplateSelected(template: Template) {
+    this.templateService.templateSelectedEvent.emit(template);
   }
 
 }

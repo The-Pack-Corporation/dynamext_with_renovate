@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { TextGeneratorFormComponent } from './text-generator-form/text-generator-form.component';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'dynamext';
+
+  @ViewChild('modal', {static : false}) modal : TextGeneratorFormComponent;
+
+
 }
