@@ -41,28 +41,11 @@ export class TemplateContentEditorComponent implements OnInit {
 
             var el = document.createElement("div");
 
-            //make it as a function
-            // var para = this.renderer.createElement('p');
-            // this.renderer.setAttribute(para,'contenteditable','false');
-            // this.renderer.setAttribute(para,'hidden','true');
-            // this.renderer.setProperty(para,'innerHTML','__@');
-
-            // this.renderer.appendChild(el, para);
-
             var link = this.renderer.createElement('a');
             this.renderer.setAttribute(link,'contenteditable','false');
             this.renderer.setAttribute(link,'style','color:blue');
             this.renderer.setProperty(link,'innerHTML','__@'+variableName+'@__');
             this.renderer.appendChild(el, link);
-
-            // var para2 = this.renderer.createElement('p');
-            // this.renderer.setAttribute(para2,'contenteditable','false');
-            // this.renderer.setAttribute(para2,'hidden','true');
-            // this.renderer.setProperty(para2,'innerHTML','@__');
-            
-            // this.renderer.appendChild(el, para2);
-
-
 
             var frag = document.createDocumentFragment(), node, lastNode;
             while ( (node = el.firstChild) ) {
@@ -84,16 +67,6 @@ export class TemplateContentEditorComponent implements OnInit {
             }
         }
     } 
-    // else if ( (sel = document.getSelection) && sel.type != "Control") {
-    //     var originalRange = sel.createRange();
-    //     originalRange.collapse(true);
-    //     sel.createRange().pasteHTML(html);
-    //     if (selectPastedContent) {
-    //         range = sel.createRange();
-    //         range.setEndPoint("StartToStart", originalRange);
-    //         range.select();
-    //     }
-    // }
 }
 
 

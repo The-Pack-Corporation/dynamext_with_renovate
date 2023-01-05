@@ -46,20 +46,6 @@ export class TextGeneratorFormComponent implements OnInit {
     }
     this.isFormSubmitted = true;
     this.generatedText = finalText;
-
-
-    // const p = 'The __$quick$__ brown fox jumps over the lazy dog. If the dog reacted, was it really lazy?';
-
-    // console.log(p.replaceAll('dog', 'monkey'));
-    // expected output: "The quick brown fox jumps over the lazy monkey. If the monkey reacted, was it really lazy?"
-
-
-    // Global flag required when calling replaceAll with regex
-
-    // const regex = /__\$[A-Za-z0-9]*\$__/ig;
-    // console.log(p.replaceAll(regex, 'ferret'));
-    //gmix
   }
-
 
 }

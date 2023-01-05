@@ -15,3 +15,5 @@ edit template, delete template, reuse last generated, (future ==> enhancement ==
 // const regex = /__\$[A-Za-z0-9]*\$__/ig;
 // console.log(p.replaceAll(regex, 'ferret'));
 //gmix
+
+#should supabase constructor provided as singleton?

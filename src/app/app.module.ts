@@ -10,6 +10,7 @@ import { TemplateItemComponent } from './template/template-item/template-item.co
 import { TemplateListComponent } from './template/template-list/template-list.component';
 import { AppRoutingModule } from './app-routing.module';
 import { TextGeneratorFormComponent } from './text-generator-form/text-generator-form.component';
+import { AuthenticationComponent } from './authentication/authentication.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { TextGeneratorFormComponent } from './text-generator-form/text-generator
     TemplateComponent,
     TemplateItemComponent,
     TemplateListComponent,
-    TextGeneratorFormComponent
+    TextGeneratorFormComponent,
+    AuthenticationComponent
   ],
   imports: [
     BrowserModule,
