@@ -18,8 +18,13 @@
               required
               minlength="6"/>
             </div>
-            <div class="pt-2">
-              <button class="btn btn-primary">Sign Up</button> 
+            <div class="row">
+              <div class="pt-2">
+                <button type="submit" class="btn btn-primary">{{ loginMode ? 'Login' : 'Signup'}}</button> 
+              </div>
+              <div class="pt-2">
+                <a (click)="onSwitchMode()" style="color:blue">{{ loginMode ? 'Signup' : 'Login'}}</a> 
+              </div>
             </div>
           </form>
         </div>

@@ -10,10 +10,19 @@
           <a class="nav-link active" aria-current="page" href="#">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/editor">Editor</a>
+          <a class="nav-link" routerLink="/editor" *ngIf="isAuthenticated">Editor</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/myTemplates">My Templates</a>
+          <a class="nav-link" routerLink="/myTemplates" *ngIf="isAuthenticated">My Templates</a>
+        </li>
+      </ul>
+
+      <ul class="navbar-nav navbar-right">
+        <li>
+          <a class="nav-link" routerLink="/auth" *ngIf="!isAuthenticated">Login</a>
+        </li>
+        <li>
+          <a class="nav-link" *ngIf="isAuthenticated" (click)="onLogOut()">Logout</a>
         </li>
       </ul>
     </div>

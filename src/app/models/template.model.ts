@@ -8,6 +8,6 @@ export class Template{
         public templateHTML: string,
         public templateVariables: TemplateVariabe[]
     ) {
-
+        
     }
 }

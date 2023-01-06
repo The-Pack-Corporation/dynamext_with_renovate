@@ -6,7 +6,7 @@ import { TemplateListComponent } from "./template/template-list/template-list.co
 import { TemplateComponent } from "./template/template.component";
 
 const appRoutes: Routes = [
-    {path : '', redirectTo: '/editor', pathMatch: 'full'},
+    {path : '', redirectTo: '/auth', pathMatch: 'full'},
     {path : 'auth', component: AuthenticationComponent},
     {path : 'editor', component: TemplateContentEditorComponent},
     {path : 'myTemplates', component: TemplateListComponent}
