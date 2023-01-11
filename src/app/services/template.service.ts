@@ -39,7 +39,9 @@ export class TemplateService {
     ])
     .select()
     .then(result => {
+      console.log("templateInserted", result);
       const templateId = result.data[0].id;
+      template.id = templateId;
       this.addVariablesToTemplate(templateId, template.templateVariables);
     });
 
@@ -75,6 +77,7 @@ export class TemplateService {
   return this.supabase
   .from('template')
   .select(`
+    id,
     templateName,
     templateContent,
     templateHTML,
@@ -87,16 +90,17 @@ export class TemplateService {
   
 }
 
-  getTemplatebyTemplateId(templateId) {
+  getTemplatebyTemplateId(templateId: number) {
     var user_id ='';
     this.auth.user.subscribe(user => {
       if(user) {
         user_id = user.id;
       }
     });
-  this.supabase
+  return this.supabase
   .from('template')
   .select(`
+  id,
   templateName,
   templateContent,
   templateHTML,
@@ -106,10 +110,8 @@ export class TemplateService {
   )
 `)
   .eq('user_id', user_id)
-  .eq('id', 5)
-  .then((data) => {
-    console.log("templateByID", data);
-  }); 
+  .eq('id', templateId);
+  
 
   }
   

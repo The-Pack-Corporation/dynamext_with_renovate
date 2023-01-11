@@ -17,3 +17,4 @@ edit template, delete template, reuse last generated, (future ==> enhancement ==
 //gmix
 
 #should supabase constructor provided as singleton?
+#unsubscribe from events

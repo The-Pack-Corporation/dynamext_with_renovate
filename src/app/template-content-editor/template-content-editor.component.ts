@@ -1,9 +1,11 @@
+import { ThisReceiver } from '@angular/compiler';
 import { Component, ElementRef, OnInit, ViewChild, Renderer2 } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TemplateVariable } from '../models/template-variable.model';
 import { Template } from '../models/template.model';
 import { TemplateService } from '../services/template.service';
+import { TemplateResponse } from '../template/template-list/template-list.component';
 @Component({
   selector: 'app-template-content-editor',
   templateUrl: './template-content-editor.component.html',
@@ -11,10 +13,12 @@ import { TemplateService } from '../services/template.service';
 })
 export class TemplateContentEditorComponent implements OnInit {
 
+
   defaultType = "Text";
   variableTypeList =["Text", "Number", "Date", "Time", "Dropdown"];
   templateVariables: TemplateVariable[] = [];
-  templateTitle = ""
+  templateTitle: string = "";
+  templateId: number;
 
   @ViewChild('closeModal', {static:true}) closeModal!: ElementRef;
   @ViewChild('closeTitleModal', {static:true}) closeTitleModal!: ElementRef;
@@ -24,9 +28,33 @@ export class TemplateContentEditorComponent implements OnInit {
 
   constructor(private renderer:Renderer2,
     private router: Router,
+    private route: ActivatedRoute,
     private templateService : TemplateService) { }
 
   ngOnInit(): void {
+    this.route.params.subscribe((params: Params) => {
+      if(params['templateId']) {
+        this.templateId = +params['templateId'];
+        this.addTemplateToEditor(this.templateId);  
+      }
+    })
+  }
+
+  addTemplateToEditor(templateId: number) {
+
+    this.templateService.getTemplatebyTemplateId(templateId)
+    .then((response) => {
+      response.data.forEach((element: TemplateResponse) => {
+              this.renderer.setProperty(this.templateEditor.nativeElement,
+      'innerHTML', element.templateHTML);
+    this.templateVariables = element.templateVariables;
+    this.templateTitle = element.templateName;
+
+      });
+
+    })
+    
+
   }
 
 

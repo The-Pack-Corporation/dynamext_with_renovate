@@ -9,6 +9,7 @@ const appRoutes: Routes = [
     {path : '', redirectTo: '/auth', pathMatch: 'full'},
     {path : 'auth', component: AuthenticationComponent},
     {path : 'editor', component: TemplateContentEditorComponent},
+    {path : 'editor/:templateId', component: TemplateContentEditorComponent},
     {path : 'myTemplates', component: TemplateListComponent}
 ]
 @NgModule({

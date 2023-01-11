@@ -50,7 +50,7 @@ export class TextGeneratorFormComponent implements OnInit {
   }
 
   toggleFormSubmitted() {
-    this.isFormSubmitted = !this.isFormSubmitted;
+    this.isFormSubmitted = false;
   }
 
 }

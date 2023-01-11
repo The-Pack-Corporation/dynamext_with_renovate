@@ -5,8 +5,9 @@ import { TemplateService } from 'src/app/services/template.service';
 import { TextGeneratorFormComponent } from 'src/app/text-generator-form/text-generator-form.component';
 
 
-interface TemplateListResponse{
+export interface TemplateResponse{
 
+  id: number,
   templateName: string;
   templateContent: string;
   templateHTML: string;
@@ -45,13 +46,14 @@ export class TemplateListComponent implements OnInit {
 
     this.templateService.getTemplatesbyUserId()
     .then((response) => {
-       response.data.forEach((element:TemplateListResponse)  => {
+       response.data.forEach((element:TemplateResponse)  => {
         this.templateList.push(
           new Template(
             element.templateName,
             element.templateContent,
             element.templateHTML,
-            element.templateVariables
+            element.templateVariables,
+            element.id
           )
         )
       });      
