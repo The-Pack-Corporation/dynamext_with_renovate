@@ -1,22 +1,118 @@
 import { EventEmitter, Injectable, Output } from '@angular/core';
-import { createClient } from '@supabase/supabase-js';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { TemplateVariable } from '../models/template-variable.model';
 import { Template } from '../models/template.model';
+import { AuthenticationService } from './authentication.service';
+import { DbConnectionService } from './db-connection.service';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class TemplateService {
   public templateList: Template[] = [];
+  supabase: SupabaseClient;
 
   @Output() templateSelectedEvent: EventEmitter<Template> = new EventEmitter();
+  @Output() templateDataEvent: EventEmitter<Template> = new EventEmitter();
 
-  constructor() { }
+  constructor(private supabaseConn: DbConnectionService,
+    private auth: AuthenticationService) {
 
-  supabase = createClient('https://jjvwmwclufvreosovsow.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Impqdndtd2NsdWZ2cmVvc292c293Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzI5MTc4MjMsImV4cCI6MTk4ODQ5MzgyM30.2zvSxAyDCQwCPQrKLEgbOnlvhEyXkXe-Mq-ZFQ_J6xE');
+    this.supabase = this.supabaseConn.supabase;
+   }
+
 
   saveTemplate(template: Template) {
-    this.templateList.push(template);
+    var user_id ='';
+    this.auth.user.subscribe(user => {
+      user_id = user.id;
+    });
+    
+    this.supabase
+    .from('template')
+    .insert([
+      {user_id : user_id, 
+      templateName: template.templateName,
+      templateContent: template.templateContent,
+      templateHTML: template.templateHTML },
+    ])
+    .select()
+    .then(result => {
+      const templateId = result.data[0].id;
+      this.addVariablesToTemplate(templateId, template.templateVariables);
+    });
+
+    this.templateDataEvent.emit(template);
+
   }
+
+  addVariablesToTemplate(templateId: string, templateVariables: TemplateVariable[]) {
+    var templateInsertValue = [];
+    templateVariables.forEach(element => {
+      templateInsertValue.push({templateId: templateId, 
+      variableName: element.variableName,
+    variableType: element.variableType});
+    });
+
+    this.supabase
+    .from('templateVariables')
+    .insert(templateInsertValue)
+    .select()
+    .then((result) => {
+      console.log(result);
+    });
+
+  }
+
+  getTemplatesbyUserId() {
+    var user_id ='';
+    this.auth.user.subscribe(user => {
+      if(user) {
+        user_id = user.id;
+      }
+    });
+  return this.supabase
+  .from('template')
+  .select(`
+    templateName,
+    templateContent,
+    templateHTML,
+    templateVariables (
+      variableName,
+      variableType
+    )
+  `)
+  .eq('user_id', user_id)
+  
+}
+
+  getTemplatebyTemplateId(templateId) {
+    var user_id ='';
+    this.auth.user.subscribe(user => {
+      if(user) {
+        user_id = user.id;
+      }
+    });
+  this.supabase
+  .from('template')
+  .select(`
+  templateName,
+  templateContent,
+  templateHTML,
+  templateVariables (
+    variableName,
+    variableType
+  )
+`)
+  .eq('user_id', user_id)
+  .eq('id', 5)
+  .then((data) => {
+    console.log("templateByID", data);
+  }); 
+
+  }
+  
 
   getTemplates() {
     return this.templateList.slice();

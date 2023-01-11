@@ -1,4 +1,4 @@
-import { TemplateVariabe } from "./template-variable.model";
+import { TemplateVariable } from "./template-variable.model";
 
 export class Template{
 
@@ -6,7 +6,7 @@ export class Template{
         public templateName: string,
         public templateContent: string,
         public templateHTML: string,
-        public templateVariables: TemplateVariabe[]
+        public templateVariables?: TemplateVariable[]
     ) {
         
     }

@@ -44,6 +44,7 @@ export class AuthenticationComponent implements OnInit {
       if(resData.error) {
         alert(resData.error.message); 
       } else {
+        console.log(resData);
         this.authService.user.next(resData.data.user);
         this.authService.setSession(resData.data.session.access_token, resData.data.session.refresh_token);
         this.router.navigate(['/editor']);

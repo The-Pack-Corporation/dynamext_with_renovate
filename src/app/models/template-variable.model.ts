@@ -1,4 +1,4 @@
-export class TemplateVariabe {
+export class TemplateVariable {
 
     constructor (
         public variableName: string,

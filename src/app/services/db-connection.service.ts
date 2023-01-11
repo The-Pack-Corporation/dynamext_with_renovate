@@ -7,7 +7,8 @@ import { environment } from 'src/environments/environment';
 })
 export class DbConnectionService {
 
-  public supabase = createClient(environment.supabaseUrl, environment.supabaseKey);
+  public supabase = createClient('',
+  '');
 
   constructor() { }
 }

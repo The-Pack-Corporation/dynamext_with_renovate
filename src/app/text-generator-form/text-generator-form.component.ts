@@ -32,6 +32,7 @@ export class TextGeneratorFormComponent implements OnInit {
     }  
     this.showModal.nativeElement.click();
 
+
   }
 
   onFormSubmit() {
@@ -46,6 +47,10 @@ export class TextGeneratorFormComponent implements OnInit {
     }
     this.isFormSubmitted = true;
     this.generatedText = finalText;
+  }
+
+  toggleFormSubmitted() {
+    this.isFormSubmitted = !this.isFormSubmitted;
   }
 
 }

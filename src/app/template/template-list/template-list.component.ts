@@ -1,8 +1,18 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { TemplateVariable } from 'src/app/models/template-variable.model';
 import { Template } from 'src/app/models/template.model';
 import { TemplateService } from 'src/app/services/template.service';
 import { TextGeneratorFormComponent } from 'src/app/text-generator-form/text-generator-form.component';
 
+
+interface TemplateListResponse{
+
+  templateName: string;
+  templateContent: string;
+  templateHTML: string;
+  templateVariables: TemplateVariable[]
+
+}
 @Component({
   selector: 'app-template-list',
   templateUrl: './template-list.component.html',
@@ -19,13 +29,35 @@ export class TemplateListComponent implements OnInit {
   constructor(private templateService: TemplateService) { }
 
   ngOnInit(): void {
-    this.templateList = this.templateService.getTemplates();
+
+    this.loadMyTemplates();
+    
+    this.templateService.templateDataEvent.subscribe((template: Template) => {
+      this.templateList.unshift(template);
+    })
 
     this.templateService.templateSelectedEvent.subscribe( (template: Template) => {
       this.reactiveFormModal.show(template);
     })
   }
 
+  loadMyTemplates() {
+
+    this.templateService.getTemplatesbyUserId()
+    .then((response) => {
+       response.data.forEach((element:TemplateListResponse)  => {
+        this.templateList.push(
+          new Template(
+            element.templateName,
+            element.templateContent,
+            element.templateHTML,
+            element.templateVariables
+          )
+        )
+      });      
+    })
+
+  }
   
 
 

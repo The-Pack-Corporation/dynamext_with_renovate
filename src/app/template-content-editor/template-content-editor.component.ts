@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild, Renderer2 } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { TemplateVariabe } from '../models/template-variable.model';
+import { TemplateVariable } from '../models/template-variable.model';
 import { Template } from '../models/template.model';
 import { TemplateService } from '../services/template.service';
 @Component({
@@ -13,7 +13,7 @@ export class TemplateContentEditorComponent implements OnInit {
 
   defaultType = "Text";
   variableTypeList =["Text", "Number", "Date", "Time", "Dropdown"];
-  templateVariables: TemplateVariabe[] = [];
+  templateVariables: TemplateVariable[] = [];
   templateTitle = ""
 
   @ViewChild('closeModal', {static:true}) closeModal!: ElementRef;
@@ -91,7 +91,7 @@ export class TemplateContentEditorComponent implements OnInit {
 
     var json = form.value;
     this.templateVariables.push(
-      new TemplateVariabe(json.templateVariableName, json.variableType)
+      new TemplateVariable(json.templateVariableName, json.variableType)
     );
     this.variableForm.reset();
     this.closeModal.nativeElement.click();
