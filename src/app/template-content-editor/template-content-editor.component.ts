@@ -19,6 +19,7 @@ export class TemplateContentEditorComponent implements OnInit {
   templateVariables: TemplateVariable[] = [];
   templateTitle: string = "";
   templateId: number;
+  editFlag: boolean;
 
   @ViewChild('closeModal', {static:true}) closeModal!: ElementRef;
   @ViewChild('closeTitleModal', {static:true}) closeTitleModal!: ElementRef;
@@ -49,7 +50,7 @@ export class TemplateContentEditorComponent implements OnInit {
       'innerHTML', element.templateHTML);
     this.templateVariables = element.templateVariables;
     this.templateTitle = element.templateName;
-
+    this.editFlag = true;
       });
 
     })
@@ -100,14 +101,21 @@ export class TemplateContentEditorComponent implements OnInit {
 
 
   onSubmitTemplateEditorContent() {
-    this.templateService.saveTemplate(
-      new Template(
-        this.templateTitle,
-        this.templateEditor.nativeElement.innerText,
-        this.templateEditor.nativeElement.innerHTML,
-        this.templateVariables
-      )
+    const template = new Template(
+      this.templateTitle,
+      this.templateEditor.nativeElement.innerText,
+      this.templateEditor.nativeElement.innerHTML,
+      this.templateVariables
     );
+
+    if(this.editFlag) {
+      template.id = this.templateId;
+      this.templateService.updateTemplate(template);
+    } else {
+      this.templateService.saveTemplate(
+        template
+      );  
+    }
     console.log(this.templateEditor.nativeElement.innerText);
     this.templateTitle = "";
     this.closeTitleModal.nativeElement.click();

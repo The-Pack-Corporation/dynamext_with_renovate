@@ -18,3 +18,6 @@ edit template, delete template, reuse last generated, (future ==> enhancement ==
 
 #should supabase constructor provided as singleton?
 #unsubscribe from events
+
+#edit only if form in touched
+need last updated field in db to sort

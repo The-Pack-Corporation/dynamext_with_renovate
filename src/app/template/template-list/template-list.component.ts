@@ -8,10 +8,14 @@ import { TextGeneratorFormComponent } from 'src/app/text-generator-form/text-gen
 export interface TemplateResponse{
 
   id: number,
-  templateName: string;
-  templateContent: string;
-  templateHTML: string;
-  templateVariables: TemplateVariable[]
+  templateName: string,
+  templateContent: string,
+  templateHTML: string,
+  templateVariables: [{
+    variableName: string,
+    variableType: string,
+    id: number
+  }]
 
 }
 @Component({

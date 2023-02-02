@@ -45,7 +45,9 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" (click)=" onSubmitTemplateEditorContent()">Save</button>
+                    <button type="button" class="btn btn-primary" (click)=" onSubmitTemplateEditorContent()">
+                        {{ editFlag ? 'Update' : 'Save'}} 
+                    </button>
                 </div>
             </div>
       </div>
@@ -99,7 +101,7 @@
                 class="btn btn-success"
                 data-bs-toggle="modal" 
                 data-bs-target="#exampleModal2"> 
-                Save 
+                {{ editFlag ? 'Update' : 'Save'}} 
                 </button>
             </div>            
         </div>

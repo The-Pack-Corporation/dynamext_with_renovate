@@ -49,12 +49,33 @@ export class TemplateService {
 
   }
 
-  addVariablesToTemplate(templateId: string, templateVariables: TemplateVariable[]) {
+  updateTemplate(template: Template) {
+    var user_id ='';
+    this.auth.user.subscribe(user => {
+      user_id = user.id;
+    });
+
+    this.supabase
+    .from('template')
+    .update({ templateName: template.templateName,
+              templateContent: template.templateContent,
+              templateHTML: template.templateHTML })
+    .eq('id', template.id)
+    .select()
+    .then(result => {
+      this.updateTemplateVariables(template.id, template.templateVariables);
+    });
+
+  }
+
+
+
+  addVariablesToTemplate(templateId: number, templateVariables: TemplateVariable[]) {
     var templateInsertValue = [];
     templateVariables.forEach(element => {
       templateInsertValue.push({templateId: templateId, 
       variableName: element.variableName,
-    variableType: element.variableType});
+      variableType: element.variableType});
     });
 
     this.supabase
@@ -65,6 +86,33 @@ export class TemplateService {
       console.log(result);
     });
 
+  }
+
+  updateTemplateVariables(templateId: number, templateVariables: TemplateVariable[]) {
+    var templatesToInsert = [];
+    var templateUpdateValue = [];
+
+    templateVariables.forEach(element => {
+      //if id available upsert or else insert
+      if(element.id){
+        templateUpdateValue.push({ 
+          id: element.id,
+          templateId: templateId,
+          variableName: element.variableName,
+          variableType: element.variableType});    
+      } else {
+        templatesToInsert.push(element); 
+      }
+    });
+
+    this.supabase
+    .from('templateVariables')
+    .upsert(templateUpdateValue)
+    .select()
+    .then((result) => {
+      console.log(result);
+      this.addVariablesToTemplate(templateId, templatesToInsert);
+    });
   }
 
   getTemplatesbyUserId() {
@@ -83,7 +131,8 @@ export class TemplateService {
     templateHTML,
     templateVariables (
       variableName,
-      variableType
+      variableType,
+      id
     )
   `)
   .eq('user_id', user_id)
@@ -106,13 +155,12 @@ export class TemplateService {
   templateHTML,
   templateVariables (
     variableName,
-    variableType
+    variableType,
+    id
   )
 `)
   .eq('user_id', user_id)
   .eq('id', templateId);
-  
-
   }
   
 
