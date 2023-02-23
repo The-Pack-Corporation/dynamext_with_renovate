@@ -68,10 +68,20 @@
                                 </button>
                                 <ul class="dropdown-menu">
                                     <li *ngFor="let item of templateVariables">
-                                        <button  class="dropdown-item"
-                                        (click)="pasteHtmlAtCaret(item.variableName, false)">
-                                        {{ item.variableName }}
-                                    </button>
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <button  class="dropdown-item"
+                                                (click)="pasteHtmlAtCaret(item.variableName, false)">
+                                                {{ item.variableName }}
+                                                </button>    
+                                            </div>
+                                            <div>
+                                                <button  class="dropdown-item"
+                                                (click)="onDeleteTempVar(item)">
+                                                x</button>
+                                            </div>
+                                        </div>
+                                        
                                     </li>
                                 </ul>
                             </div>
@@ -107,3 +117,7 @@
         </div>
     </div>
 </div>
+
+<app-confirmation-modal #deleteConfirmation
+(confirmedEvent)="onDeleteTempVarConfirmed()"
+(cancelledEvent)="onDeleteTempVarCancelled()"></app-confirmation-modal>

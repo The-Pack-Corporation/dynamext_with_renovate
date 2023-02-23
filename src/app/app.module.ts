@@ -11,6 +11,7 @@ import { TemplateListComponent } from './template/template-list/template-list.co
 import { AppRoutingModule } from './app-routing.module';
 import { TextGeneratorFormComponent } from './text-generator-form/text-generator-form.component';
 import { AuthenticationComponent } from './authentication/authentication.component';
+import { ConfirmationModalComponent } from './shared/confirmation-modal/confirmation-modal.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { AuthenticationComponent } from './authentication/authentication.compone
     TemplateItemComponent,
     TemplateListComponent,
     TextGeneratorFormComponent,
-    AuthenticationComponent
+    AuthenticationComponent,
+    ConfirmationModalComponent
   ],
   imports: [
     BrowserModule,

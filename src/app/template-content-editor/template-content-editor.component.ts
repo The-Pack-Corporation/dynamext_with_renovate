@@ -5,6 +5,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TemplateVariable } from '../models/template-variable.model';
 import { Template } from '../models/template.model';
 import { TemplateService } from '../services/template.service';
+import { ConfirmationModalComponent } from '../shared/confirmation-modal/confirmation-modal.component';
 import { TemplateResponse } from '../template/template-list/template-list.component';
 @Component({
   selector: 'app-template-content-editor',
@@ -20,11 +21,14 @@ export class TemplateContentEditorComponent implements OnInit {
   templateTitle: string = "";
   templateId: number;
   editFlag: boolean;
+  templateVariableToDelete: TemplateVariable;
 
   @ViewChild('closeModal', {static:true}) closeModal!: ElementRef;
   @ViewChild('closeTitleModal', {static:true}) closeTitleModal!: ElementRef;
   @ViewChild('variableForm', {static: true}) variableForm!: NgForm;
   @ViewChild('templateEditor', {static:true}) templateEditor! : ElementRef;
+  @ViewChild('deleteConfirmation', {static:true}) deleteConfirmation: ConfirmationModalComponent;
+
 
 
   constructor(private renderer:Renderer2,
@@ -131,6 +135,32 @@ export class TemplateContentEditorComponent implements OnInit {
     );
     this.variableForm.reset();
     this.closeModal.nativeElement.click();
+  }
+
+  onDeleteTempVar(templateVariable: TemplateVariable) {
+    this.templateVariableToDelete = templateVariable;
+    this.deleteConfirmation.show();
+
+  }
+
+  onDeleteTempVarConfirmed() {
+    const index = this.templateVariables.indexOf(this.templateVariableToDelete);
+
+    if(index > -1) {
+      this.templateVariables.splice(index, 1);
+    }
+
+    this.templateService.deleteTemplateVariable(this.templateVariableToDelete)
+    .then(() => {
+      console.log("template variable successfully deleted");
+      this.templateVariableToDelete = null;
+
+    })
+
+  }
+
+  onDeleteTempVarCancelled() {
+    this.templateVariableToDelete = null;
   }
 
 }

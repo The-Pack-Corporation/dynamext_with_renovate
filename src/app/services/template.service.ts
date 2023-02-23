@@ -167,4 +167,13 @@ export class TemplateService {
   getTemplates() {
     return this.templateList.slice();
   }
+
+  deleteTemplateVariable(templateVariable: TemplateVariable) {
+
+  return this.supabase
+  .from('templateVariables')
+  .delete()
+  .eq('id', templateVariable.id);
+  }
+
 }
