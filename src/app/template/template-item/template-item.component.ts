@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { Template } from 'src/app/models/template.model';
 import { TemplateService } from 'src/app/services/template.service';
@@ -8,9 +8,10 @@ import { TemplateService } from 'src/app/services/template.service';
   templateUrl: './template-item.component.html',
   styleUrls: ['./template-item.component.css']
 })
-export class TemplateItemComponent implements OnInit {
+export class TemplateItemComponent implements OnInit { 
 
   @Input() template: Template; 
+  @Output() deleteTemplate: EventEmitter<Template> = new EventEmitter();
 
   constructor(public templateService : TemplateService,
     private router: Router) { }
@@ -28,7 +29,7 @@ export class TemplateItemComponent implements OnInit {
   }
 
   onClickDelete(template: Template) {
-
+    this.deleteTemplate.emit(template);
   }
 
 }

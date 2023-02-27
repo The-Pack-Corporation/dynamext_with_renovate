@@ -1,5 +1,11 @@
 <div class="mt-3 mb-5">
-    <app-template-item *ngFor="let templateItem of templateList" [template]="templateItem"></app-template-item>
+    <app-template-item *ngFor="let templateItem of templateList" [template]="templateItem"
+    (deleteTemplate)="onDeleteTemplate($event)"></app-template-item>
 </div>
 
 <app-text-generator-form #reactiveFormModal></app-text-generator-form>
+
+<app-confirmation-modal #deleteConfirmation
+(confirmedEvent)="onDeleteTemplateConfirmed()"
+(cancelledEvent)="onDeleteTemplateCancelled()"></app-confirmation-modal>
+

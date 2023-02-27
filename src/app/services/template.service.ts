@@ -187,4 +187,18 @@ export class TemplateService {
 
   }
 
+  deleteTemplate(template: Template) {
+    return this.supabase
+    .from('template')
+    .delete()
+    .eq('id', template.id);      
+  }
+
+  deleteTemplateVariablesbyTempId(templateId: number){
+    return this.supabase
+    .from('templateVariables')
+    .delete()
+    .eq('templateId', templateId); 
+  }
+
 }

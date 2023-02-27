@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { TemplateVariable } from 'src/app/models/template-variable.model';
 import { Template } from 'src/app/models/template.model';
 import { TemplateService } from 'src/app/services/template.service';
+import { ConfirmationModalComponent } from 'src/app/shared/confirmation-modal/confirmation-modal.component';
 import { TextGeneratorFormComponent } from 'src/app/text-generator-form/text-generator-form.component';
 
 
@@ -26,9 +27,11 @@ export interface TemplateResponse{
 export class TemplateListComponent implements OnInit {
 
   templateList: Template[] = [];
+  templateToDelete: Template;
 
 
   @ViewChild('reactiveFormModal', {static : false}) reactiveFormModal : TextGeneratorFormComponent;
+  @ViewChild('deleteConfirmation', {static:true}) deleteConfirmation: ConfirmationModalComponent;
 
 
   constructor(private templateService: TemplateService) { }
@@ -63,6 +66,27 @@ export class TemplateListComponent implements OnInit {
       });      
     })
 
+  }
+
+  onDeleteTemplate(template: Template) {
+    this.templateToDelete = template;
+    this.deleteConfirmation.show();
+  }
+
+  onDeleteTemplateConfirmed(){
+    this.templateService.deleteTemplateVariablesbyTempId(this.templateToDelete.id)
+    .then((result) => {
+      return this.templateService.deleteTemplate(this.templateToDelete)
+    })
+    .then((r) => {
+      console.log(r);
+      this.templateToDelete = null;
+    });
+
+  }
+
+  onDeleteTemplateCancelled() {
+    this.templateToDelete = null;
   }
   
 
