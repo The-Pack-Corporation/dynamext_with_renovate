@@ -17,6 +17,8 @@ export class TemplateContentEditorComponent implements OnInit {
 
   defaultType = "Text";
   variableTypeList =["Text", "Number", "Date", "Time", "Dropdown"];
+  templateContent: string;
+  templateHTML: string;
   templateVariables: TemplateVariable[] = [];
   templateTitle: string = "";
   templateId: number;
@@ -60,6 +62,11 @@ export class TemplateContentEditorComponent implements OnInit {
     })
     
 
+  }
+
+  addTemplateToEditorByTemplate(template: Template) {
+    this.renderer.setProperty(this.templateEditor.nativeElement,
+      'innerHTML', template.templateHTML);
   }
 
 
@@ -152,12 +159,31 @@ export class TemplateContentEditorComponent implements OnInit {
 
     this.templateService.deleteTemplateVariable(this.templateVariableToDelete)
     .then(() => {
-      console.log("template variable successfully deleted");
-      this.templateVariableToDelete = null;
-
+      this.deleteTemplateVariablePlaceHolder(this.templateVariableToDelete.variableName);
     })
 
   }
+
+  deleteTemplateVariablePlaceHolder(templateVariableName: string) {
+
+      let regexObj = new RegExp("__@" + templateVariableName + "@__", "ig");
+      let templateContent = this.templateEditor.nativeElement.innerText;
+      templateContent = templateContent.replace(regexObj, "");
+      let templateHTML = this.templateEditor.nativeElement.innerHTML;
+      regexObj = new RegExp('<a _ngcontent-[a-z]{3}-c52="" contenteditable="false" style="color:blue">__@'+templateVariableName+'@__+</a>', "ig");
+      templateHTML = templateHTML.replace(regexObj, "");
+
+      this.templateService.updateTemplateContentAndHtml(this.templateId, 
+        templateContent, templateHTML)
+      .then((result) => {
+        this.templateVariableToDelete = null;
+        const template = result.data[0];
+        this.addTemplateToEditorByTemplate(new Template(template.templateName,
+          template.templateContent, template.templateHTML, template.id));
+      })
+      
+  }
+
 
   onDeleteTempVarCancelled() {
     this.templateVariableToDelete = null;

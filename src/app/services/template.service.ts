@@ -68,6 +68,16 @@ export class TemplateService {
 
   }
 
+  updateTemplateContentAndHtml(templateId:number, templateContent:string, templateHTML:string) {
+    return this.supabase
+    .from('template')
+    .update({ templateContent: templateContent,
+              templateHTML: templateHTML })
+    .eq('id', templateId)
+    .select();
+    
+  }
+
 
 
   addVariablesToTemplate(templateId: number, templateVariables: TemplateVariable[]) {
@@ -174,6 +184,7 @@ export class TemplateService {
   .from('templateVariables')
   .delete()
   .eq('id', templateVariable.id);
+
   }
 
 }
