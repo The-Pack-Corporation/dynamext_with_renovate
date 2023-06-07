@@ -41,7 +41,7 @@ export class TemplateListComponent implements OnInit {
     this.loadMyTemplates();
     
     this.templateService.templateDataEvent.subscribe((template: Template) => {
-      this.templateList.unshift(template);
+      this.loadMyTemplates();
     })
 
     this.templateService.templateSelectedEvent.subscribe( (template: Template) => {
@@ -50,7 +50,7 @@ export class TemplateListComponent implements OnInit {
   }
 
   loadMyTemplates() {
-
+    this.templateList = [];
     this.templateService.getTemplatesbyUserId()
     .then((response) => {
        response.data.forEach((element:TemplateResponse)  => {
@@ -79,6 +79,8 @@ export class TemplateListComponent implements OnInit {
       return this.templateService.deleteTemplate(this.templateToDelete)
     })
     .then((r) => {
+      let index = this.templateList.findIndex(temp => temp.id === this.templateToDelete.id);
+      this.templateList.splice(index,1);
       console.log(r);
       this.templateToDelete = null;
     });

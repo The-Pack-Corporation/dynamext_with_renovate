@@ -43,9 +43,9 @@ export class TemplateService {
       const templateId = result.data[0].id;
       template.id = templateId;
       this.addVariablesToTemplate(templateId, template.templateVariables);
+      this.templateDataEvent.emit(template);
     });
 
-    this.templateDataEvent.emit(template);
 
   }
 
@@ -64,6 +64,7 @@ export class TemplateService {
     .select()
     .then(result => {
       this.updateTemplateVariables(template.id, template.templateVariables);
+      this.templateDataEvent.emit(template);
     });
 
   }
