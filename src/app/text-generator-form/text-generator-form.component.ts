@@ -28,7 +28,10 @@ export class TextGeneratorFormComponent implements OnInit {
     this.textGeneratorForm = new FormGroup({});
     this.template = template;
     for( let data of this.template.templateVariables) {
-      this.textGeneratorForm.addControl(data.variableName, new FormControl("", Validators.email));
+      const placeHolder = "__@" + data.variableName + "@__";
+      if(template.templateContent.includes(placeHolder)) {
+        this.textGeneratorForm.addControl(data.variableName, new FormControl("", Validators.email));
+      }
     }  
     this.showModal.nativeElement.click();
 
@@ -47,6 +50,15 @@ export class TextGeneratorFormComponent implements OnInit {
     }
     this.isFormSubmitted = true;
     this.generatedText = finalText;
+  }
+
+  async copyToClipBoard() {
+    try {
+      await navigator.clipboard.writeText(this.generatedText);
+      console.log('Content copied to clipboard');
+    } catch (err) {
+      console.error('Failed to copy: ', err);
+    }
   }
 
   toggleFormSubmitted() {

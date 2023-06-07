@@ -8,16 +8,21 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button *ngIf="isFormSubmitted; else modalTitle" class="btn btn-success" (click)="copyToClipBoard()">Copy</button>
+        <ng-template #modalTitle>
+          <h5 class="modal-title" id="exampleModalLabel">Generate</h5>
+        </ng-template>
         <button (click)="toggleFormSubmitted()" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <!-- <ng-template> -->
           <form *ngIf="template && !isFormSubmitted" [formGroup]="textGeneratorForm" (ngSubmit)="onFormSubmit()">
             <div class="mb-3" *ngFor="let data of template.templateVariables">
-              <label [for]="data.variableName" class="form-label">{{ data.variableName }}</label>
-              <input class="form-control" [id]="data.variableName" aria-describedby="emailHelp"
-              [formControlName]="data.variableName">
+              <ng-container *ngIf="template.templateContent.includes('__@' + data.variableName + '@__')">
+                <label [for]="data.variableName" class="form-label">{{ data.variableName }}</label>
+                <input class="form-control" [id]="data.variableName" aria-describedby="emailHelp"
+                [formControlName]="data.variableName">  
+              </ng-container>
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
           </form>  
