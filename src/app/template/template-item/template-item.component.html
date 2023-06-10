@@ -2,7 +2,7 @@
     <div class="card-body">
       <h5 class="card-title">{{ template.templateName }}</h5>
       <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-          <a class="p-1 m-1 btn btn-primary" (click)="onClickGenerate(template)">Generate</a>
-          <a class="p-1 m-1 btn btn-primary" (click)="onClickEdit(template)">Edit</a>
-          <a class="p-1 m-1 btn btn-primary" (click)="onClickDelete(template)">Delete</a>   
-    </div>
+      <a class="p-1 m-1 btn btn-success" (click)="onClickGenerate(template)"><i class="fa-solid fa-plus"></i> New Message</a>
+      <a class="p-1 m-1 btn btn-primary" (click)="onClickEdit(template)"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
+      <a class="p-1 m-1 btn btn-danger" (click)="onClickDelete(template)"><i class="fa-solid fa-trash"></i> Delete</a>   
+  </div>
